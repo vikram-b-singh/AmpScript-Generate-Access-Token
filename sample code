@@ -1,0 +1,34 @@
+
+%%[
+   
+  set @debug = true 
+  set @Auth_URI = "https://{url from installed package}.auth.marketingcloudapis.com/v2/token"
+  
+  set @payload_Token = '{
+                "client_id": "{client id from installed package}", 
+                "client_secret":"{client secret from installed package}",
+                "grant_type": "client_credentials",
+                "account_id": "{MID}"
+                }'
+
+    SET @authreq = HTTPPost2(@Auth_URI, "application/json", @payload_Token, false, @response, @responseRows)
+  
+  
+    IF (@debug) THEN 
+        outputLine(Concat("Access Token1 = ",@accessToken))
+        outputLine(Concat("response = ",@response))
+        outputLine(Concat("responseRows = ",@responseRows))
+        outputLine(Concat("authreq = ",@authreq))
+   ENDIF
+   SET @accessToken = REGEXMATCH(@response,'^(?:.*"access_token":")(.*?)(?:".*)$',1)
+   SET @accessToken = CONCAT('Bearer ', @accessToken)
+    
+   
+    IF (@debug) THEN 
+        outputLine(Concat("Access Token = ",@accessToken))
+    ENDIF
+   
+]%%  
+
+
+
