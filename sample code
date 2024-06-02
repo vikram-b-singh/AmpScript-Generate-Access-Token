@@ -29,6 +29,22 @@
    SET @accessToken = Field(Row(@rows, 1),1)
     */
 
+/*
+If you want to make use of the expires_in to refresh token, then use following code
+ SET @rows = BuildRowsetFromJSON(@response, "$.*", true)
+   SET @rowcount = RowCount(@rows)
+   SET @access_Token = Field(Row(@rows, 1),1) 
+   SET @expires_In = Field(Row(@rows, 3),1) 
+   
+   SET @tokenExpiryTime = DateAdd(Now(), FormatNumber(Divide(@expires_In,60),'N0'),'MI')
+  
+   IF (Now() <= @tokenExpiryTime) THEN 
+      outputLine(Concat("<br><br>Token NOT Expired  ===== ",""))
+   ELSE
+      outputLine(Concat("<br><br>Token Expired  ======== ",""))
+   ENDIF
+*/
+
     IF (@debug) THEN 
         outputLine(Concat("Access Token = ",@accessToken))
     ENDIF
