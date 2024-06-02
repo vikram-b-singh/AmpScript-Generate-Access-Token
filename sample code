@@ -23,7 +23,12 @@
    SET @accessToken = REGEXMATCH(@response,'^(?:.*"access_token":")(.*?)(?:".*)$',1)
    SET @accessToken = CONCAT('Bearer ', @accessToken)
     
-   
+   /* now there is new function BuildRowsetFromJSON in ampscript and so following code can be used 
+   SET @rows = BuildRowsetFromJSON(@response, "$['access_token']", true)
+   SET @rowcount = RowCount(@rows)
+   SET @accessToken = Field(Row(@rows, 1),1)
+    */
+
     IF (@debug) THEN 
         outputLine(Concat("Access Token = ",@accessToken))
     ENDIF
